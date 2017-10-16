@@ -49,6 +49,11 @@ supplycloset = Room("Supply Closet","A small dark room with a musty smell. On on
 #
 locked = Room("locked","")
 
+#Fitness Center
+#
+fitnesscenter = Room("Fitness Room ","A fitness center fit for a king! A king has to stay jacked, right? There is a room full of weights, and a large set of LOCKERS in the back.")
+fitnesscenter.locker = Container("locker",["boss key"])
+
 # Connect rooms. These are one-way connections.
 kitchen.link_room(locked, "EAST")
 kitchen.link_room(smalloffice, "SOUTH")
@@ -60,6 +65,7 @@ smalloffice.link_room(locked, "SOUTH")
 smalloffice.link_room(supplycloset, "WEST")
 lab.link_room(locked, "SOUTH")
 lab.link_room(smalloffice, "WEST")
+lab.link_room(fitnesscenter, "EAST")
 current_room = kitchen
 
 # Set up characters
@@ -151,6 +157,9 @@ def checkUserInput(current_room,command,heldItems):
     elif current_room.name == "Laboratory" and command == "SHELF":
         # Open lab.shelf and concat each of the contents to the end of room_items
         current_room.room_items += lab.shelf.open()
+        
+    elif current_room.name == "Fitness Center" and command == "LOCKER":
+        current_room.room_items += fitnesscenter.locker.open()
 
     # ********************************* MOVE *********************************
     else:
